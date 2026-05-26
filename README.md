@@ -36,7 +36,16 @@
   <tr>
     <td align="center">
       <img src="./assets/park_seoyeon.png" width="240" height="280" alt="park_seoyeon" />
-      <br/>
+    </td>
+    <td align="center">
+      <img src="./assets/choi_yeonjae.jpg" width="240" height="280" alt="choi_yeonjae" />
+    </td>
+    <td align="center">
+      <img src="./assets/kim_minkyung.jpg" width="240" height="280" alt="kim_minkyung" />
+    </td>
+  </tr>
+  <tr>
+    <td align="center">
       <b>박서연</b>
       <ul>
         <li>프론트엔드 전반(Vue.js, Vite, Pinia) 구현</li>
@@ -44,8 +53,6 @@
       </ul>
     </td>
     <td align="center">
-      <img src="./assets/choi_yeonjae.jpg" width="240" height="280" alt="choi_yeonjae" />
-      <br/>
       <b>최연제</b>
       <ul>
         <li>프론트엔드 전반(Vue.js, Vite, Pinia) 구현</li>
@@ -53,8 +60,6 @@
       </ul>
     </td>
     <td align="center">
-      <img src="./assets/kim_minkyung.jpg" width="240" height="280" alt="kim_minkyung" />
-      <br/>
       <b>김민경</b>
       <ul>
         <li>프로젝트 배포 일정 관리 및 정책 수립</li>
@@ -68,7 +73,16 @@
   <tr>
     <td align="center">
       <img src="./assets/nam_woosung.jpg" width="240" height="280" alt="nam_woosung" />
-      <br/>
+    </td>
+    <td align="center">
+      <img src="./assets/kim_hyeongtaek.jpg" width="240" height="280" alt="kim_hyeongtaek" />
+    </td>
+    <td align="center">
+      <img src="./assets/jeong_mungi.jpg" width="240" height="280" alt="jeong_mungi" />
+    </td>
+  </tr>
+  <tr>
+    <td align="center">
       <b>남우성</b>
       <ul>
         <li>백엔드(Spring Boot) Session, Hint, User, Card, Curriculum 구현</li>
@@ -76,8 +90,6 @@
       </ul>
     </td>
     <td align="center">
-      <img src="./assets/kim_hyeongtaek.jpg" width="240" height="280" alt="kim_hyeongtaek" />
-      <br/>
       <b>김형택</b>
       <ul>
         <li>DevOps 인프라(GitLab CI/CD, Docker, Nginx) 전담 구축</li>
@@ -85,8 +97,6 @@
       </ul>
     </td>
     <td align="center">
-      <img src="./assets/jeong_mungi.jpg" width="240" height="280" alt="jeong_mungi" />
-      <br/>
       <b>정문기</b>
       <ul>
         <li>데이터 생성 및 검증</li>
