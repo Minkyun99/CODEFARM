@@ -35,7 +35,7 @@
 <table align="center">
   <tr>
     <td align="center">
-      <img src="./assets/park_seoyeon.jpg" width="240" height="280" alt="park_seoyeon" />
+      <img src="./assets/park_seoyeon.png" width="240" height="280" alt="park_seoyeon" />
       <br/>
       <b>박서연</b>
       <ul>
