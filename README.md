@@ -35,7 +35,7 @@
 <table align="center">
   <tr>
     <td align="center">
-      <img src="./assets/park_seoyeon.png" width="240" height="280" alt="park_seoyeon" />
+      <img src="./assets/park_seoyeon.png" style="width: 240px; height: 280px; object-fit: cover;"  alt="park_seoyeon" />
       <br/>
       <b>박서연</b>
       <ul>
@@ -44,7 +44,7 @@
       </ul>
     </td>
     <td align="center">
-      <img src="./assets/choi_yeonjae.jpg" width="240" height="280" alt="choi_yeonjae" />
+      <img src="./assets/choi_yeonjae.jpg" style="width: 240px; height: 280px; object-fit: cover;" alt="choi_yeonjae" />
       <br/>
       <b>최연제</b>
       <ul>
@@ -53,7 +53,7 @@
       </ul>
     </td>
     <td align="center">
-      <img src="./assets/kim_minkyung.jpg" width="240" height="280" alt="kim_minkyung" />
+      <img src="./assets/kim_minkyung.jpg" style="width: 240px; height: 280px; object-fit: cover;" alt="kim_minkyung" />
       <br/>
       <b>김민경</b>
       <ul>
@@ -67,7 +67,7 @@
 
   <tr>
     <td align="center">
-      <img src="./assets/nam_woosung.jpg" width="240" height="280" alt="nam_woosung" />
+      <img src="./assets/nam_woosung.jpg" style="width: 240px; height: 280px; object-fit: cover;" alt="nam_woosung" />
       <br/>
       <b>남우성</b>
       <ul>
@@ -76,7 +76,7 @@
       </ul>
     </td>
     <td align="center">
-      <img src="./assets/kim_hyeongtaek.jpg" width="240" height="280" alt="kim_hyeongtaek" />
+      <img src="./assets/kim_hyeongtaek.jpg" style="width: 240px; height: 280px; object-fit: cover;" alt="kim_hyeongtaek" />
       <br/>
       <b>김형택</b>
       <ul>
@@ -85,7 +85,7 @@
       </ul>
     </td>
     <td align="center">
-      <img src="./assets/jeong_mungi.jpg" width="240" height="280" alt="jeong_mungi" />
+      <img src="./assets/jeong_mungi.jpg" style="width: 240px; height: 280px; object-fit: cover;" alt="jeong_mungi" />
       <br/>
       <b>정문기</b>
       <ul>
