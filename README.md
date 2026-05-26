@@ -1,16 +1,21 @@
-## Branch Naming Convention
+<div align="center">
+  <img src="./assets/logo.png" alt="logo" />
+  <h3>내 곁에 따듯한 코딩 선생님, 코드팜</h3>
+  <h4>학생들을 위한 실시간 <b>AI 문제 풀이 코칭 서비스</b>입니다.</h4>
+</div>
 
-본 프로젝트는 frontend와 backend를 하나의 레포지토리에서 관리한다.
-따라서 feature 브랜치는 작업 범위(Frontend/Backend)와 도메인을 명확히 구분하여 네이밍한다.
+<br/>
 
-### 1) 기본 규칙
+- **개발 기간** : 2026.01.06 ~ 2026.02.13 **(6주)**
+- **플랫폼** : Web
+- **개발 인원** : 6명
+- **기관** : 삼성 청년 SW · AI 아카데미 14기
 
-* 브랜치명은 **소문자(kebab-case)** 를 사용한다.
-* 단어 구분은 `-`를 사용한다. (예: `login-page`, `receipt-ocr`)
-* 슬래시(`/`)는 계층 구분에만 사용한다.
-* 브랜치명은 “무엇을” 하는지 식별 가능해야 한다. (추상명 금지: `test`, `tmp`, `new` 등)
+<br/>
 
-### 2) feature 브랜치 규칙 (모노레포 대응)
+<div align="center">
+  <img src="./assets/homepage.png" alt="homepage" />
+</div>
 
 ---
 
@@ -34,7 +39,7 @@
       <br/>
       <b>박서연</b>
       <ul>
-        <li>UI/UX 디자인 및 화면 설계</li>
+        <li>프론트엔드 전반(Vue.js, Vite, Pinia) 구현</li>
         <li>서비스 비주얼 및 인터페이스 디자인</li>
       </ul>
     </td>
@@ -398,102 +403,781 @@
   </summary>
 
 ```
-feature/frontend/<domain>/<task-name>
+./backend
+|-- .dockerignore
+|-- .gitattributes
+|-- .gitignore
+|-- .gradle
+|   |-- 8.14.3
+|   |   |-- checksums
+|   |   |   |-- checksums.lock
+|   |   |   `-- sha1-checksums.bin
+|   |   |-- expanded
+|   |   |-- fileChanges
+|   |   |   `-- last-build.bin
+|   |   |-- fileHashes
+|   |   |   |-- fileHashes.bin
+|   |   |   `-- fileHashes.lock
+|   |   |-- gc.properties
+|   |   `-- vcsMetadata
+|   |-- buildOutputCleanup
+|   |   |-- buildOutputCleanup.lock
+|   |   `-- cache.properties
+|   `-- vcs-1
+|       `-- gc.properties
+|-- Dockerfile
+|-- build
+|   |-- classes
+|   |   `-- java
+|   |       |-- main
+|   |       `-- test
+|   |-- reports
+|   |   `-- problems
+|   |       `-- problems-report.html
+|   `-- resources
+|       |-- main
+|       `-- test
+|-- build.gradle
+|-- config
+|   `-- checkstyle
+|       `-- checkstyle.xml
+|-- gradle
+|   `-- wrapper
+|       |-- gradle-wrapper.jar
+|       `-- gradle-wrapper.properties
+|-- gradlew
+|-- gradlew.bat
+|-- settings.gradle
+`-- src
+    |-- main
+    |   |-- java
+    |   |   `-- com
+    |   |       `-- ssafy
+    |   |           `-- codefarm
+    |   |               |-- CodefarmApplication.java
+    |   |               |-- card
+    |   |               |   |-- controller
+    |   |               |   |   `-- CardController.java
+    |   |               |   |-- dto
+    |   |               |   |   |-- query
+    |   |               |   |   |   |-- CardDetailQueryDto.java
+    |   |               |   |   |   `-- MyCardQueryDto.java
+    |   |               |   |   `-- response
+    |   |               |   |       |-- AllCollectionMasterDto.java
+    |   |               |   |       |-- CardDetailResponseDto.java
+    |   |               |   |       |-- CardRankingResponseDto.java
+    |   |               |   |       |-- CardResponseDto.java
+    |   |               |   |       |-- CardSummaryResponseDto.java
+    |   |               |   |       |-- DrawCardResponseDto.java
+    |   |               |   |       |-- MyCardListResponseDto.java
+    |   |               |   |       |-- MyCardResponseDto.java
+    |   |               |   |       |-- MyCardStatusResponseDto.java
+    |   |               |   |       |-- TodayRareCollectorDto.java
+    |   |               |   |       `-- TopCollectorDto.java
+    |   |               |   |-- entity
+    |   |               |   |   |-- Card.java
+    |   |               |   |   |-- CardGrade.java
+    |   |               |   |   `-- UserCard.java
+    |   |               |   |-- repository
+    |   |               |   |   |-- CardRepository.java
+    |   |               |   |   |-- UserCardRepository.java
+    |   |               |   |   `-- query
+    |   |               |   |       |-- CardQueryRepository.java
+    |   |               |   |       `-- CardQueryRepositoryImpl.java
+    |   |               |   `-- service
+    |   |               |       `-- CardService.java
+    |   |               |-- common
+    |   |               |   |-- authority
+    |   |               |   |   |-- JwtAuthenticationTokenFilter.java
+    |   |               |   |   |-- JwtTokenProvider.java
+    |   |               |   |   `-- TokenInfo.java
+    |   |               |   |-- config
+    |   |               |   |   |-- HttpClientConfig.java
+    |   |               |   |   |-- JacksonConfig.java
+    |   |               |   |   |-- QuerydslConfig.java
+    |   |               |   |   |-- SchedulerConfig.java
+    |   |               |   |   `-- SecurityConfig.java
+    |   |               |   |-- dto
+    |   |               |   |   |-- CustomUserDetails.java
+    |   |               |   |   |-- ErrorResponse.java
+    |   |               |   |   |-- LoginTokenResult.java
+    |   |               |   |   `-- SuccessResponse.java
+    |   |               |   |-- exception
+    |   |               |   |   |-- CustomException.java
+    |   |               |   |   |-- CustomExceptionHandler.java
+    |   |               |   |   `-- ErrorCode.java
+    |   |               |   `-- service
+    |   |               |       `-- CustomUserDetailsService.java
+    |   |               |-- curriculum
+    |   |               |   |-- controller
+    |   |               |   |   `-- CurriculumController.java
+    |   |               |   |-- dto
+    |   |               |   |   |-- query
+    |   |               |   |   |   |-- CurriculumDetailQueryDto.java
+    |   |               |   |   |   |-- CurriculumProblemDetailQueryDto.java
+    |   |               |   |   |   `-- CurriculumProblemOrderDto.java
+    |   |               |   |   `-- response
+    |   |               |   |       |-- CurriculumDetailResponseDto.java
+    |   |               |   |       |-- CurriculumListItemResponseDto.java
+    |   |               |   |       |-- CurriculumListResponseDto.java
+    |   |               |   |       |-- CurriculumProblemItemResponseDto.java
+    |   |               |   |       |-- CurriculumRecommendResponseDto.java
+    |   |               |   |       `-- CurriculumResponseDto.java
+    |   |               |   |-- entity
+    |   |               |   |   |-- Curriculum.java
+    |   |               |   |   |-- CurriculumDifficulty.java
+    |   |               |   |   `-- CurriculumProblem.java
+    |   |               |   |-- repository
+    |   |               |   |   |-- CurriculumProblemRepository.java
+    |   |               |   |   |-- CurriculumQueryRepository.java
+    |   |               |   |   |-- CurriculumRepository.java
+    |   |               |   |   `-- impl
+    |   |               |   |       `-- CurriculumQueryRepositoryImpl.java
+    |   |               |   `-- service
+    |   |               |       `-- CurriculumService.java
+    |   |               |-- hint
+    |   |               |   |-- controller
+    |   |               |   |   `-- HintController.java
+    |   |               |   |-- dto
+    |   |               |   |   |-- ai
+    |   |               |   |   |   |-- AIHintRequest.java
+    |   |               |   |   |   `-- AIHintResponse.java
+    |   |               |   |   |-- requset
+    |   |               |   |   |   `-- ManualHintRequestDto.java
+    |   |               |   |   `-- response
+    |   |               |   |       |-- HintItemResponseDto.java
+    |   |               |   |       |-- HintListResponseDto.java
+    |   |               |   |       `-- ManualHintResponseDto.java
+    |   |               |   |-- entity
+    |   |               |   |   |-- Hint.java
+    |   |               |   |   `-- HintType.java
+    |   |               |   |-- repository
+    |   |               |   |   |-- HintRepository.java
+    |   |               |   |   `-- SseEmitterRepository.java
+    |   |               |   `-- service
+    |   |               |       |-- AIHintServerClient.java
+    |   |               |       |-- AutoHintSchedulerService.java
+    |   |               |       |-- HintProcessingService.java
+    |   |               |       `-- HintService.java
+    |   |               |-- problem
+    |   |               |   |-- controller
+    |   |               |   |   `-- ProblemController.java
+    |   |               |   |-- dto
+    |   |               |   |   |-- query
+    |   |               |   |   |   `-- ProblemListQueryDto.java
+    |   |               |   |   `-- response
+    |   |               |   |       |-- ProblemDetailResponseDto.java
+    |   |               |   |       |-- ProblemListItemResponseDto.java
+    |   |               |   |       |-- ProblemListResponseDto.java
+    |   |               |   |       |-- ProblemResponseDto.java
+    |   |               |   |       |-- ProblemStatisticsDto.java
+    |   |               |   |       `-- ProblemUserStatusDto.java
+    |   |               |   |-- entity
+    |   |               |   |   |-- AlgorithmType.java
+    |   |               |   |   |-- Problem.java
+    |   |               |   |   |-- ProblemDifficulty.java
+    |   |               |   |   `-- ProblemType.java
+    |   |               |   |-- repository
+    |   |               |   |   |-- ProblemQueryRepository.java
+    |   |               |   |   |-- ProblemRepository.java
+    |   |               |   |   `-- impl
+    |   |               |   |       `-- ProblemQueryRepositoryImpl.java
+    |   |               |   `-- service
+    |   |               |       `-- ProblemService.java
+    |   |               |-- result
+    |   |               |   |-- controller
+    |   |               |   |   `-- ResultController.java
+    |   |               |   |-- dto
+    |   |               |   |   |-- query
+    |   |               |   |   |   `-- ReportDetailQueryDto.java
+    |   |               |   |   |-- requset
+    |   |               |   |   |   `-- SaveCodeSnapshotRequestDto.java
+    |   |               |   |   `-- response
+    |   |               |   |       |-- ProblemSimpleDto.java
+    |   |               |   |       |-- ReportDetailResponseDto.java
+    |   |               |   |       |-- ResultLearningDto.java
+    |   |               |   |       |-- ResultMyReportListResponseDto.java
+    |   |               |   |       `-- SaveCodeSnapshotResponseDto.java
+    |   |               |   |-- entity
+    |   |               |   |   |-- Language.java
+    |   |               |   |   |-- Result.java
+    |   |               |   |   `-- ResultType.java
+    |   |               |   |-- repository
+    |   |               |   |   |-- ResultQueryRepository.java
+    |   |               |   |   |-- ResultRepository.java
+    |   |               |   |   `-- impl
+    |   |               |   |       `-- ResultQueryRepositoryImpl.java
+    |   |               |   `-- service
+    |   |               |       `-- ResultService.java
+    |   |               |-- session
+    |   |               |   |-- controller
+    |   |               |   |   `-- SessionController.java
+    |   |               |   |-- dto
+    |   |               |   |   |-- execution
+    |   |               |   |   |   |-- EvaluationContext.java
+    |   |               |   |   |   |-- ExecuteServerRequest.java
+    |   |               |   |   |   |-- ExecuteServerResult.java
+    |   |               |   |   |   |-- SubmissionContext.java
+    |   |               |   |   |   |-- SubmitContext.java
+    |   |               |   |   |   `-- SubmitOutcome.java
+    |   |               |   |   |-- feedback
+    |   |               |   |   |   |-- FeedbackRequest.java
+    |   |               |   |   |   `-- FeedbackResponse.java
+    |   |               |   |   |-- redis
+    |   |               |   |   |   |-- CodeSnapshotRedisDto.java
+    |   |               |   |   |   `-- PreviousJudgementRedisDto.java
+    |   |               |   |   |-- request
+    |   |               |   |   |   |-- CreateSessionRequestDto.java
+    |   |               |   |   |   |-- GiveUpSessionRequestDto.java
+    |   |               |   |   |   |-- RunSessionRequestDto.java
+    |   |               |   |   |   `-- SubmitSessionRequestDto.java
+    |   |               |   |   `-- response
+    |   |               |   |       |-- GiveUpSessionResponseDto.java
+    |   |               |   |       |-- LatestCodeResponseDto.java
+    |   |               |   |       |-- RunSessionResponseDto.java
+    |   |               |   |       |-- SessionResponseDto.java
+    |   |               |   |       |-- SessionResultItemResponseDto.java
+    |   |               |   |       |-- SessionResultsResponseDto.java
+    |   |               |   |       `-- SubmitSessionResponseDto.java
+    |   |               |   |-- entity
+    |   |               |   |   |-- Session.java
+    |   |               |   |   `-- SessionStatus.java
+    |   |               |   |-- repository
+    |   |               |   |   `-- SessionRepository.java
+    |   |               |   `-- service
+    |   |               |       |-- ExecutionServerClient.java
+    |   |               |       |-- FeedbackServerClient.java
+    |   |               |       |-- SessionCodeRedisService.java
+    |   |               |       `-- SessionService.java
+    |   |               `-- user
+    |   |                   |-- controller
+    |   |                   |   `-- UserController.java
+    |   |                   |-- dto
+    |   |                   |   |-- request
+    |   |                   |   |   |-- CheckEmailRequestDto.java
+    |   |                   |   |   |-- CheckNicknameRequestDto.java
+    |   |                   |   |   |-- LoginRequestDto.java
+    |   |                   |   |   |-- UpdateUserProfileRequestDto.java
+    |   |                   |   |   `-- UserSignupRequestDto.java
+    |   |                   |   `-- response
+    |   |                   |       |-- CheckEmailResponseDto.java
+    |   |                   |       |-- CheckNicknameResponseDto.java
+    |   |                   |       |-- LoginResponseDto.java
+    |   |                   |       |-- TokenResponseDto.java
+    |   |                   |       `-- UserResponseDto.java
+    |   |                   |-- entity
+    |   |                   |   `-- User.java
+    |   |                   |-- repository
+    |   |                   |   `-- UserRepository.java
+    |   |                   `-- service
+    |   |                       |-- RefreshTokenRedisService.java
+    |   |                       `-- UserService.java
+    |   `-- resources
+    |       |-- application-dev.yml
+    |       |-- application-prod.yml
+    |       |-- application.yml
+    |       `-- application.yml.bak
+    `-- test
+        `-- java
+            `-- com
+                `-- ssafy
+                    `-- codefarm
+                        `-- CodefarmApplicationTests.java
 ```
 
-예시
-
-* `feature/frontend/auth/login-ui`
-* `feature/frontend/dashboard/settlement-widget`
-* `feature/frontend/receipt/upload-flow`
-* `feature/frontend/common/header-refactor`
-
-#### Backend
+</details>
+<details>
+  <summary>
+    exec
+  </summary>
 
 ```
-feature/backend/<domain>/<task-name>
+./exec
+|-- dump-codefarm-202602091021.sql
+|-- porting_manual.md
+`-- scenario.md
 ```
 
-예시
-
-* `feature/backend/auth/jwt-refresh`
-* `feature/backend/ledger/export-endpoint`
-* `feature/backend/receipt/ocr-parser`
-* `feature/backend/common/exception-handler`
-
-> `<domain>`: 기능 영역(예: auth, dashboard, receipt, ledger, common)
-> `<task-name>`: 작업 내용(예: login-ui, export-endpoint)
-
-### 3) infra / fix / hotfix 브랜치 규칙
-
-#### infra
+</details>
+<details>
+  <summary>
+    execution
+  </summary>
 
 ```
-infra/<scope>/<task-name>
+./execution
+|-- Dockerfile
+|-- app
+|   |-- __init__.py
+|   |-- app.py
+|   |-- models.py
+|   `-- runner.py
+|-- runner
+|   `-- python
+|       `-- Dockerfile
+`-- scenario.md
 ```
 
-예시
-
-* `infra/ci/branch-rules`
-* `infra/deploy/dev-prod-scripts`
-* `infra/nginx/reverse-proxy-conf`
-
-#### fix (develop 기준 버그)
+</details>
+<details>
+  <summary>
+    feedback
+  </summary>
 
 ```
-fix/<scope>/<issue-summary>
+./feedback
+|-- .gitignore
+|-- Dockerfile
+|-- app
+|   |-- __init__.py
+|   |-- __pycache__
+|   |   `-- __init__.cpython-311.pyc
+|   |-- app.py
+|   `-- models.py
+`-- requirements.txt
 ```
 
-예시
-
-* `fix/frontend/auth-login-validation`
-* `fix/backend/ledger-null-pointer`
-* `fix/common/env-parsing`
-
-#### hotfix (main 기준 운영 긴급)
+</details>
+<details>
+  <summary>
+    frontend
+  </summary>
 
 ```
-hotfix/<issue-summary>
+./frontend
+|-- .gitignore
+|-- .prettierrc
+|-- .vscode
+|   `-- extensions.json
+|-- README.md
+|-- cursor
+|   `-- mcp.json
+|-- index.html
+|-- jsconfig.json
+|-- package-lock.json
+|-- package.json
+|-- public
+|   `-- favicon.ico
+|-- src
+|   |-- App.vue
+|   |-- api
+|   |   |-- auth.js
+|   |   |-- card.js
+|   |   |-- hint.js
+|   |   |-- index.js
+|   |   |-- problem.js
+|   |   |-- profile.js
+|   |   |-- reports.js
+|   |   `-- session.js
+|   |-- assets
+|   |   |-- banner
+|   |   |   `-- rank.png
+|   |   |-- card
+|   |   |   |-- Gacha.png
+|   |   |   `-- cardlist.png
+|   |   |-- common
+|   |   |   |-- logo.png
+|   |   |   |-- patterns
+|   |   |   |   |-- brick-wall.svg
+|   |   |   |   `-- dot-pattern.svg
+|   |   |   `-- style.css
+|   |   `-- roadmap
+|   |       |-- Roadmap.png
+|   |       |-- chicken.png
+|   |       |-- cowshed.png
+|   |       |-- duck.png
+|   |       |-- farmer.png
+|   |       |-- forest.png
+|   |       |-- fruits.png
+|   |       |-- megacrew.png
+|   |       |-- pond.png
+|   |       |-- veg_field.png
+|   |       `-- wood_panel_1.png
+|   |-- components
+|   |   |-- atoms
+|   |   |   |-- AppToast.vue
+|   |   |   |-- BellIcon.vue
+|   |   |   |-- CarrotIcon.vue
+|   |   |   |-- EscapeIcon.vue
+|   |   |   |-- MarkdownText.vue
+|   |   |   |-- PageShell.vue
+|   |   |   `-- PageTitle.vue
+|   |   |-- layout
+|   |   |   `-- DefaultLayout.vue
+|   |   `-- organisms
+|   |       |-- CardDetail.vue
+|   |       |-- CommonFooter.vue
+|   |       |-- CommonHeader.vue
+|   |       |-- ConfirmModal.vue
+|   |       |-- HintModal.vue
+|   |       |-- HintPanel.vue
+|   |       |-- MainHeroBanner.vue
+|   |       |-- MonacoEditor.vue
+|   |       |-- NotebookFlip.vue
+|   |       |-- ProblemCard.vue
+|   |       |-- ProblemPanel.vue
+|   |       |-- ProfileEditModal.vue
+|   |       |-- ReportModal.vue
+|   |       |-- RoadmapMap.vue
+|   |       |-- SignupForm.vue
+|   |       `-- TerminalPanel.vue
+|   |-- composables
+|   |   `-- useSSE.js
+|   |-- main.js
+|   |-- mocks
+|   |   `-- sampled_30_clean.json
+|   |-- router
+|   |   `-- index.js
+|   |-- stores
+|   |   |-- auth.js
+|   |   |-- card.js
+|   |   |-- ide.js
+|   |   |-- problem.js
+|   |   |-- profile.js
+|   |   |-- toast.js
+|   |   `-- ui.js
+|   |-- utils
+|   |   `-- algorithm.js
+|   `-- views
+|       |-- CardView.vue
+|       |-- IdeView.vue
+|       |-- LoginView.vue
+|       |-- MainView.vue
+|       |-- ProblemView.vue
+|       |-- ProfileView.vue
+|       `-- RoadmapView.vue
+|-- tailwind.config.js
+`-- vite.config.js
 ```
 
-예시
+</details>
+<details>
+  <summary>
+    inference
+  </summary>
 
-* `hotfix/payment-500-error`
-* `hotfix/login-redirect-bug`
+```
+./inference
+|-- READMD.md
+|-- __pycache__
+|   `-- app.cpython-311.pyc
+|-- app.py
+|-- models
+|   |-- __pycache__
+|   |   |-- model1.cpython-311.pyc
+|   |   `-- model2.cpython-311.pyc
+|   |-- model1.py
+|   `-- model2.py
+|-- requirements.txt
+`-- utils
+    |-- __pycache__
+    |   |-- auth.cpython-311.pyc
+    |   |-- json_utils.cpython-311.pyc
+    |   |-- prompt.cpython-311.pyc
+    |   `-- prompt_builder.cpython-311.pyc
+    |-- auth.py
+    |-- constant.py
+    |-- json_utils.py
+    |-- labels.py
+    |-- prompt.py
+    `-- prompt_builder.py
+```
 
-### 4) 병합 규칙(요약)
+</details>
+<details>
+  <summary>
+    infra
+  </summary>
 
-* `feature/*`, `infra/*`, `fix/*` → **develop** 로 Merge Request 병합
-* `hotfix/*` → **main** 으로 병합(필요 시 develop에도 역병합)
-* main 브랜치는 직접 push 금지(예외 규칙은 별도 정책 참조)
+```
+./infra
+|-- README.md
+|-- branch_strategy.md
+`-- nginx
+    |-- Dockerfile
+    `-- conf.d
+        `-- default.conf
+```
 
-### 5) 권장 도메인 예시
+</details>
+.gitlab-ci.yml
 
-* `auth` : 로그인/권한
-* `receipt` : 영수증/업로드/OCR
-* `ledger` : 장부/정산
-* `dashboard` : 대시보드/지표
-* `common` : 공통(UI 컴포넌트, 예외처리 등)
-* `infra` : CI/CD, 서버, 배포, 설정
+### EC2
 
-### 6) (선택) Issue 키 포함 규칙
+<details>
+  <summary>
+    /srv/app
+  </summary>
 
-이슈 트래킹(Jira 등)을 사용하는 경우 브랜치에 키를 포함할 수 있다.
+```
+./srv/app
+├── .current_image_tag_dev
+├── .current_image_tag_foundation
+├── .current_image_tag_prod
+├── .env
+├── .previous_image_tag_dev
+├── .previous_image_tag_foundation
+├── .previous_image_tag_prod
+├── docker
+│   └── runner
+│       └── python
+│           └── Dockerfile
+├── docker-compose.db.yml
+├── docker-compose.dev.yml
+├── docker-compose.exec.yml
+├── docker-compose.feedback.yml
+├── docker-compose.prod.yml
+├── letsencrypt-webroot
+└── scripts
+    ├── deploy_foundation.sh
+    ├── deploy_server.sh
+    ├── healthcheck.sh
+    └── rollback.sh
+```
 
-Frontend 예시
+</details>
 
-* `feature/frontend/auth/login-ui-SSR-123`
+### Elice GPU Server
 
-Backend 예시
+<details>
+  <summary>
+    /srv/app
+  </summary>
 
-* `feature/backend/receipt/ocr-parser-SSR-208`
+```
+./srv/app
+└── app
+    ├── builds
+    │   └── _A_GMOZgw
+    │       └── 0
+    │           └── s14-webmobile2-sub1
+    │               ├── S14P11B109
+    │               │   └── repo
+    │               │       ├── .env.development
+    │               │       ├── .git
+    │               │       │   ├── branches
+    │               │       │   ├── config
+    │               │       │   ├── config.worktree
+    │               │       │   ├── description
+    │               │       │   ├── FETCH_HEAD
+    │               │       │   ├── HEAD
+    │               │       │   ├── hooks
+    │               │       │   │   ├── applypatch-msg.sample
+    │               │       │   │   ├── commit-msg.sample
+    │               │       │   │   ├── fsmonitor-watchman.sample
+    │               │       │   │   ├── post-update.sample
+    │               │       │   │   ├── pre-applypatch.sample
+    │               │       │   │   ├── pre-commit.sample
+    │               │       │   │   ├── pre-merge-commit.sample
+    │               │       │   │   ├── prepare-commit-msg.sample
+    │               │       │   │   ├── pre-push.sample
+    │               │       │   │   ├── pre-rebase.sample
+    │               │       │   │   ├── pre-receive.sample
+    │               │       │   │   ├── push-to-checkout.sample
+    │               │       │   │   └── update.sample
+    │               │       │   ├── index
+    │               │       │   ├── info
+    │               │       │   │   ├── exclude
+    │               │       │   │   └── sparse-checkout
+    │               │       │   ├── logs
+    │               │       │   │   └── HEAD
+    │               │       │   ├── objects
+    │               │       │   │   ├── info
+    │               │       │   │   └── pack
+    │               │       │   │       ├── pack-e577346f3568c2ded93a3f7cad1048b5504be39f.idx
+    │               │       │   │       └── pack-e577346f3568c2ded93a3f7cad1048b5504be39f.pack
+    │               │       │   ├── refs
+    │               │       │   │   ├── heads
+    │               │       │   │   └── tags
+    │               │       │   └── shallow
+    │               │       ├── .gitignore
+    │               │       ├── .gitlab-ci.yml
+    │               │       ├── inference
+    │               │       │   ├── app.py
+    │               │       │   ├── models
+    │               │       │   │   ├── model1.py
+    │               │       │   │   ├── model2.py
+    │               │       │   │   └── __pycache__
+    │               │       │   │       ├── model1.cpython-311.pyc
+    │               │       │   │       └── model2.cpython-311.pyc
+    │               │       │   ├── __pycache__
+    │               │       │   │   └── app.cpython-311.pyc
+    │               │       │   ├── READMD.md
+    │               │       │   ├── requirements.txt
+    │               │       │   └── utils
+    │               │       │       ├── auth.py
+    │               │       │       ├── constant.py
+    │               │       │       ├── json_utils.py
+    │               │       │       ├── labels.py
+    │               │       │       ├── prompt_builder.py
+    │               │       │       ├── prompt.py
+    │               │       │       └── __pycache__
+    │               │       │           ├── auth.cpython-311.pyc
+    │               │       │           ├── json_utils.cpython-311.pyc
+    │               │       │           ├── prompt_builder.cpython-311.pyc
+    │               │       │           └── prompt.cpython-311.pyc
+    │               │       ├── package-lock.json
+    │               │       └── README.md
+    │               └── S14P11B109.tmp
+    ├── .env
+    └── inference
+        ├── app.py
+        ├── builds
+        │   └── _A_GMOZgw
+        │       └── 0
+        │           └── s14-webmobile2-sub1
+        │               ├── S14P11B109
+        │               │   └── repo
+        │               │       ├── .env.development
+        │               │       ├── .git
+        │               │       │   ├── branches
+        │               │       │   ├── config
+        │               │       │   ├── config.worktree
+        │               │       │   ├── description
+        │               │       │   ├── FETCH_HEAD
+        │               │       │   ├── HEAD
+        │               │       │   ├── hooks
+        │               │       │   │   ├── applypatch-msg.sample
+        │               │       │   │   ├── commit-msg.sample
+        │               │       │   │   ├── fsmonitor-watchman.sample
+        │               │       │   │   ├── post-update.sample
+        │               │       │   │   ├── pre-applypatch.sample
+        │               │       │   │   ├── pre-commit.sample
+        │               │       │   │   ├── pre-merge-commit.sample
+        │               │       │   │   ├── prepare-commit-msg.sample
+        │               │       │   │   ├── pre-push.sample
+        │               │       │   │   ├── pre-rebase.sample
+        │               │       │   │   ├── pre-receive.sample
+        │               │       │   │   ├── push-to-checkout.sample
+        │               │       │   │   └── update.sample
+        │               │       │   ├── index
+        │               │       │   ├── info
+        │               │       │   │   ├── exclude
+        │               │       │   │   └── sparse-checkout
+        │               │       │   ├── logs
+        │               │       │   │   └── HEAD
+        │               │       │   ├── objects
+        │               │       │   │   ├── info
+        │               │       │   │   └── pack
+        │               │       │   │       ├── pack-b2c13af21cd5076c5fe9c2f6e26bb4c1f7c6464e.idx
+        │               │       │   │       └── pack-b2c13af21cd5076c5fe9c2f6e26bb4c1f7c6464e.pack
+        │               │       │   ├── refs
+        │               │       │   │   ├── heads
+        │               │       │   │   └── tags
+        │               │       │   └── shallow
+        │               │       ├── .gitignore
+        │               │       ├── .gitlab-ci.yml
+        │               │       ├── inference
+        │               │       │   ├── app.py
+        │               │       │   ├── models
+        │               │       │   │   ├── model1.py
+        │               │       │   │   ├── model2.py
+        │               │       │   │   └── __pycache__
+        │               │       │   │       ├── model1.cpython-311.pyc
+        │               │       │   │       └── model2.cpython-311.pyc
+        │               │       │   ├── __pycache__
+        │               │       │   │   └── app.cpython-311.pyc
+        │               │       │   ├── READMD.md
+        │               │       │   ├── requirements.txt
+        │               │       │   └── utils
+        │               │       │       ├── auth.py
+        │               │       │       ├── constant.py
+        │               │       │       ├── json_utils.py
+        │               │       │       ├── labels.py
+        │               │       │       ├── prompt_builder.py
+        │               │       │       ├── prompt.py
+        │               │       │       └── __pycache__
+        │               │       │           ├── auth.cpython-311.pyc
+        │               │       │           ├── json_utils.cpython-311.pyc
+        │               │       │           ├── prompt_builder.cpython-311.pyc
+        │               │       │           └── prompt.cpython-311.pyc
+        │               │       ├── package-lock.json
+        │               │       └── README.md
+        │               └── S14P11B109.tmp
+        ├── models
+        │   ├── label_model
+        │   │   ├── chat_template.jinja
+        │   │   ├── config.json
+        │   │   ├── model.safetensors
+        │   │   ├── special_tokens_map.json
+        │   │   ├── tokenizer_config.json
+        │   │   ├── tokenizer.json
+        │   │   └── tokenizer.model
+        │   ├── model1.py
+        │   ├── model2.py
+        │   ├── __pycache__
+        │   │   ├── model1.cpython-311.pyc
+        │   │   └── model2.cpython-311.pyc
+        │   └── text_model
+        │       ├── fold_1
+        │       │   ├── adapter_config.json
+        │       │   ├── adapter_model.safetensors
+        │       │   ├── chat_template.jinja
+        │       │   ├── README.md
+        │       │   ├── special_tokens_map.json
+        │       │   ├── tokenizer_config.json
+        │       │   └── tokenizer.json
+        │       ├── fold_2
+        │       │   ├── adapter_config.json
+        │       │   ├── adapter_model.safetensors
+        │       │   ├── chat_template.jinja
+        │       │   ├── README.md
+        │       │   ├── special_tokens_map.json
+        │       │   ├── tokenizer_config.json
+        │       │   └── tokenizer.json
+        │       ├── fold_3
+        │       │   ├── adapter_config.json
+        │       │   ├── adapter_model.safetensors
+        │       │   ├── chat_template.jinja
+        │       │   ├── README.md
+        │       │   ├── special_tokens_map.json
+        │       │   ├── tokenizer_config.json
+        │       │   └── tokenizer.json
+        │       ├── fold_4
+        │       │   ├── adapter_config.json
+        │       │   ├── adapter_model.safetensors
+        │       │   ├── chat_template.jinja
+        │       │   ├── README.md
+        │       │   ├── special_tokens_map.json
+        │       │   ├── tokenizer_config.json
+        │       │   └── tokenizer.json
+        │       └── fold_5
+        │           ├── adapter_config.json
+        │           ├── adapter_model.safetensors
+        │           ├── chat_template.jinja
+        │           ├── README.md
+        │           ├── special_tokens_map.json
+        │           ├── tokenizer_config.json
+        │           └── tokenizer.json
+        ├── __pycache__
+        │   └── app.cpython-311.pyc
+        ├── READMD.md
+        ├── requirements.txt
+        └── utils
+            ├── auth.py
+            ├── constant.py
+            ├── json_utils.py
+            ├── labels.py
+            ├── prompt_builder.py
+            ├── prompt.py
+            └── __pycache__
+                ├── auth.cpython-311.pyc
+                ├── constant.cpython-311.pyc
+                ├── json_utils.cpython-311.pyc
+                ├── labels.cpython-311.pyc
+                ├── prompt_builder.cpython-311.pyc
+                └── prompt.cpython-311.pyc
+```
 
+</details>
 
-### Commit Message Convention
+## 📦 프로젝트 산출물
 
-- 태그는 6개중 하나 사용(fix, feature, refactor, docs, chore, ci)
-- 태그는 소문자
-- 내용은 영어로 작성, 동사로 시작
-- 예시
-    - feat(backend): add controller advice
-    - docs(infra): update commit message convention to README
+### 🖼️ 화면 설계서
+![codefarm_wireframe](./assets/wireframe.png)
+
+### 🗄️ ERD
+
+![codefarm_erd](./assets/codefarm%20erd.png)
+
+### 🗓️ Jira Issues

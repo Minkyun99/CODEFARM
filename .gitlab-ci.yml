@@ -2,40 +2,45 @@ stages:
   - build
   - test
   - deploy
+  - inference
 
 workflow:
   rules:
-    - if: $CI_COMMIT_BRANCH
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
       when: always
+    - if: '$CI_COMMIT_BRANCH'
+      when: always
+    - when: never
 
 variables:
-  # docker:dind 쓰는 표준 설정
-  DOCKER_TLS_CERTDIR: ""
-
-  # 이미지 태그 전략 (sha 추천)
   IMAGE_TAG: "$CI_COMMIT_SHA"
 
 default:
   before_script:
-    - echo "branch=$CI_COMMIT_BRANCH sha=$CI_COMMIT_SHA"
+    - echo "source=$CI_PIPELINE_SOURCE branch=$CI_COMMIT_BRANCH sha=$CI_COMMIT_SHA"
 
-# -----------------------
-# BUILD (docker build & push)
-# -----------------------
+# =====================
+# BUILD (Docker build & push)
+# =====================
 .build-template:
   stage: build
   before_script:
-    - echo "branch=$CI_COMMIT_BRANCH sha=$CI_COMMIT_SHA"
     - docker info
+    - test -n "$DOCKERHUB_USERNAME" || { echo "DOCKERHUB_USERNAME missing"; exit 1; }
+    - test -n "$DOCKERHUB_TOKEN" || { echo "DOCKERHUB_TOKEN missing"; exit 1; }
     - echo "$DOCKERHUB_TOKEN" | docker login -u "$DOCKERHUB_USERNAME" --password-stdin
 
+# 배포 브랜치(develop/main)에서는 backend/web는 항상 빌드해서 SHA 태그가 반드시 존재하게 함
 build-backend:
   extends: .build-template
   script:
     - docker build -t "$DOCKERHUB_USERNAME/backend:$CI_COMMIT_SHA" -f backend/Dockerfile backend
     - docker push "$DOCKERHUB_USERNAME/backend:$CI_COMMIT_SHA"
   rules:
-    - if: '$CI_COMMIT_BRANCH == "develop" || $CI_COMMIT_BRANCH == "main" || $CI_COMMIT_BRANCH =~ /^hotfix\/.+/'
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+      when: never
+    - if: '$CI_COMMIT_BRANCH == "develop" || $CI_COMMIT_BRANCH == "main"'
+      when: on_success
 
 build-web:
   extends: .build-template
@@ -43,87 +48,159 @@ build-web:
     - docker build -t "$DOCKERHUB_USERNAME/web:$CI_COMMIT_SHA" -f infra/nginx/Dockerfile .
     - docker push "$DOCKERHUB_USERNAME/web:$CI_COMMIT_SHA"
   rules:
-    - if: '$CI_COMMIT_BRANCH == "develop" || $CI_COMMIT_BRANCH == "main" || $CI_COMMIT_BRANCH =~ /^hotfix\/.+/'
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+      when: never
+    - if: '$CI_COMMIT_BRANCH == "develop" || $CI_COMMIT_BRANCH == "main"'
+      when: on_success
 
-# -----------------------
+# foundation 쪽(execution/feedback)은 변경 있을 때만 빌드해도 되는데,
+# foundation 배포가 돌 때는 반드시 존재해야 하므로, 아래 deploy-foundation-*의 rules와 changes를 "같게" 맞춤.
+build-execution:
+  extends: .build-template
+  script:
+    - docker build -t "$DOCKERHUB_USERNAME/execution:$CI_COMMIT_SHA" -f execution/Dockerfile execution
+    - docker push "$DOCKERHUB_USERNAME/execution:$CI_COMMIT_SHA"
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+      when: never
+    - if: '$CI_COMMIT_BRANCH == "develop" || $CI_COMMIT_BRANCH == "main"'
+      when: on_success
+
+build-feedback:
+  extends: .build-template
+  script:
+    - docker build -t "$DOCKERHUB_USERNAME/feedback:$CI_COMMIT_SHA" -f feedback/Dockerfile feedback
+    - docker push "$DOCKERHUB_USERNAME/feedback:$CI_COMMIT_SHA"
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+      when: never
+    - if: '$CI_COMMIT_BRANCH == "develop" || $CI_COMMIT_BRANCH == "main"'
+      when: on_success
+
+
+# =====================
 # TEST
-# -----------------------
-test-fast:
-  tags: 
-    - ec2-mono
+# =====================
+test:
   stage: test
+  tags: [ec2-mono]
   script:
-    - echo "Fast tests for feature/infra/fix"
+    - echo "Running tests"
   rules:
-    - if: '$CI_COMMIT_BRANCH =~ /^(feature|infra|fix)\/.+/'
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+    - if: '$CI_COMMIT_BRANCH =~ /^(feature|infra|fix)\//'
 
-test-full:
-  tags:
-    - ec2-mono
-  stage: test
-  script:
-    - echo "Full tests for develop/main/hotfix"
-  rules:
-    - if: '$CI_COMMIT_BRANCH == "develop" || $CI_COMMIT_BRANCH == "main" || $CI_COMMIT_BRANCH =~ /^hotfix\/.+/'
-
-
-# -----------------------
-# DEPLOY (EC2에서 docker pull & compose up)
-# -----------------------
+# =====================
+# DEPLOY (SSH → server scripts)
+# =====================
 .deploy-template:
   stage: deploy
   before_script:
     - mkdir -p ~/.ssh
     - ssh-keyscan "$HOST" >> ~/.ssh/known_hosts
 
-deploy-dev:
-  needs: ["build-backend", "build-web"]
+# ✅ Foundation deploy (db + execution + feedback)
+deploy-foundation-dev:
   extends: .deploy-template
   script:
-    - echo "CI_PIPELINE_SOURCE=$CI_PIPELINE_SOURCE branch=$CI_COMMIT_BRANCH protected=$CI_COMMIT_REF_PROTECTED"
-    - echo "token_set=$([ -n "${DOCKERHUB_TOKEN:-}" ] && echo yes || echo no)"
-    # SSH_KEY가 "File" 타입 변수면 경로가 들어오므로 chmod 가능
     - chmod 600 "$SSH_KEY"
-    # EC2에서 레지스트리 로그인 + 이미지 pull + compose up
-    - ssh -i "$SSH_KEY" "$USER@$HOST" "DOCKERHUB_USERNAME='$DOCKERHUB_USERNAME' DOCKERHUB_TOKEN='$DOCKERHUB_TOKEN' IMAGE_TAG='$CI_COMMIT_SHA' bash /srv/app-dev/infra/scripts/deploy.sh dev"
+    - ssh -i "$SSH_KEY" "$USER@$HOST" "DOCKERHUB_USERNAME='$DOCKERHUB_USERNAME' DOCKERHUB_TOKEN='$DOCKERHUB_TOKEN' IMAGE_TAG='$CI_COMMIT_SHA' bash /srv/app/scripts/deploy_foundation.sh"
   rules:
-    - if: '$CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_BRANCH == "develop"'
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+      when: never
+    - if: '$CI_COMMIT_BRANCH == "develop"'
+  needs:
+    - job: build-execution
+    - job: build-feedback
+
+
+deploy-foundation-prod:
+  extends: .deploy-template
+  script:
+    - chmod 600 "$SSH_KEY"
+    - ssh -i "$SSH_KEY" "$USER@$HOST" "DOCKERHUB_USERNAME='$DOCKERHUB_USERNAME' DOCKERHUB_TOKEN='$DOCKERHUB_TOKEN' IMAGE_TAG='$CI_COMMIT_SHA' bash /srv/app/scripts/deploy_foundation.sh"
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+      when: never
+    - if: '$CI_COMMIT_BRANCH == "main"'
+      when: manual
+  needs:
+    - job: build-execution
+    - job: build-feedback
+
+
+# ✅ Server deploy (backend + web)
+deploy-dev:
+  extends: .deploy-template
+  script:
+    - chmod 600 "$SSH_KEY"
+    - ssh -i "$SSH_KEY" "$USER@$HOST" \
+        "DOCKERHUB_USERNAME='$DOCKERHUB_USERNAME' DOCKERHUB_TOKEN='$DOCKERHUB_TOKEN' IMAGE_TAG='$CI_COMMIT_SHA' bash /srv/app/scripts/deploy_server.sh dev"
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+      when: never
+    - if: '$CI_COMMIT_BRANCH == "develop"'
+  needs:
+    - job: build-backend
+    - job: build-web
 
 deploy-prod:
   extends: .deploy-template
   script:
     - chmod 600 "$SSH_KEY"
-    - ssh -i "$SSH_KEY" "$USER@$HOST" "DOCKERHUB_USERNAME='$DOCKERHUB_USERNAME' DOCKERHUB_TOKEN='$DOCKERHUB_TOKEN' IMAGE_TAG='$CI_COMMIT_SHA' bash /srv/app-prod/infra/scripts/deploy.sh prod"
+    - ssh -i "$SSH_KEY" "$USER@$HOST" \
+        "DOCKERHUB_USERNAME='$DOCKERHUB_USERNAME' DOCKERHUB_TOKEN='$DOCKERHUB_TOKEN' IMAGE_TAG='$CI_COMMIT_SHA' bash /srv/app/scripts/deploy_server.sh prod"
   rules:
-    - if: '$CI_COMMIT_BRANCH == "main" || $CI_COMMIT_BRANCH =~ /^hotfix\/.+/'
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+      when: never
+    - if: '$CI_COMMIT_BRANCH == "main"'
       when: manual
-      allow_failure: true
+  needs:
+    - job: build-backend
+    - job: build-web
 
-# -----------------------
-# ROLLBACK (manual)
-# -----------------------
-.rollback-template:
-  stage: deploy
-  before_script:
-    - mkdir -p ~/.ssh
-    - ssh-keyscan "$HOST" >> ~/.ssh/known_hosts
-
-rollback-dev:
-  extends: .rollback-template
-  script:
-    - chmod 600 "$SSH_KEY"
-    - ssh -i "$SSH_KEY" "$USER@$HOST" "DOCKERHUB_USERNAME='$DOCKERHUB_USERNAME' DOCKERHUB_TOKEN='$DOCKERHUB_TOKEN' IMAGE_TAG='$CI_COMMIT_SHA' bash /srv/app-dev/infra/scripts/rollback.sh dev"
+# =====================
+# INFERENCE (Elice sparse checkout)
+# =====================
+inference-deploy:
+  stage: inference
+  tags: [elice-container]
+  variables:
+    GIT_STRATEGY: "none"
+    INF_DIR: "inference"
+    DEPLOY_DIR: "/srv/app/app/inference"
+    MODEL_DIR: "/home/elicer/models"
   rules:
-    - if: '$CI_COMMIT_BRANCH == "develop"'
-      when: manual
-      allow_failure: true
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+      when: never
+    - if: '$CI_COMMIT_BRANCH == "develop" || $CI_COMMIT_BRANCH == "main"'
+      changes:
+        - inference/**
+        - .gitlab-ci.yml
+  script: |-
+    set -euo pipefail
+    echo "Deploying inference service"
 
-rollback-prod:
-  extends: .rollback-template
-  script:
-    - chmod 600 "$SSH_KEY"
-    - ssh -i "$SSH_KEY" "$USER@$HOST" "DOCKERHUB_USERNAME='$DOCKERHUB_USERNAME' DOCKERHUB_TOKEN='$DOCKERHUB_TOKEN' IMAGE_TAG='$CI_COMMIT_SHA' bash /srv/app-prod/infra/scripts/rollback.sh prod"
-  rules:
-    - if: '$CI_COMMIT_BRANCH == "main" || $CI_COMMIT_BRANCH =~ /^hotfix\/.+/'
-      when: manual
-      allow_failure: true
+    rm -rf repo
+    mkdir repo
+    cd repo
+
+    git init
+    git remote add origin "$CI_REPOSITORY_URL"
+    git fetch --depth 1 origin "$CI_COMMIT_SHA"
+    git sparse-checkout init --cone
+    git sparse-checkout set "$INF_DIR"
+    git checkout -f FETCH_HEAD
+
+    mkdir -p "$DEPLOY_DIR"
+    rsync -a "$INF_DIR/" "$DEPLOY_DIR/"
+
+    cd "$DEPLOY_DIR"
+    export PYENV_ROOT="$HOME/.pyenv"
+    export PATH="$PYENV_ROOT/bin:$PATH"
+    eval "$(pyenv init -)"
+    pyenv activate venv
+    pip install -r requirements.txt --extra-index-url https://download.pytorch.org/whl/cu128
+
+    unzip -oq "$MODEL_DIR/label_model.zip" -d "$DEPLOY_DIR/models/label_model"
+    unzip -oq "$MODEL_DIR/text_model.zip"  -d "$DEPLOY_DIR/models/text_model"

@@ -1,0 +1,7 @@
+# IDE
+.idea
+docker-compose.backend.yml
+.env.*
+# Python cache
+__pycache__/
+*.pyc
